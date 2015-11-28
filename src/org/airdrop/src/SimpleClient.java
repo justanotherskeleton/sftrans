@@ -52,7 +52,7 @@ public class SimpleClient {
 	}
 	
 	public boolean register(Class object) {
-		
+		return false; // *ahem*
 	}
 
 }
