@@ -1,38 +1,34 @@
-package org.airdrop.src;
+package org.airdrop.network;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 
-public class SimpleClient {
+public class SimpleServer {
 	
-	Client client;
+	Server server;
 	Kryo kryo;
 	
-	public SimpleClient() {
-		client = new Client();
-		kryo = new Kryo();
-		client.start();
-		log("Client online, awaiting commands...");
-	}
-	
-	public boolean connectTo(String ip, int tcpPort, int udpPort) {
+	public SimpleServer(int tcp, int udp) {
+		server = new Server();
+		kryo = server.getKryo();
+		server.start();
+		
 		try {
-			client.connect(5000, ip, tcpPort, udpPort);
+			server.bind(tcp, udp);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			log("Erroring during server port binding");
 		}
-		log("Client connected to " + ip + " using tcp/" + tcpPort + " udp/" + udpPort);
-		return true;
+		
+		
 	}
 	
 	public void log(String msg) {
@@ -42,17 +38,19 @@ public class SimpleClient {
 	}
 	
 	public void listen() {
-		  client.addListener(new Listener() {
+		server.addListener(new Listener() {
 		       public void received (Connection connection, Object object) {
+		          if (!(object instanceof Packet)) {
+		             log("Unregcoginzed data presented on socket");
+		          }
+		          
 		          if(object instanceof Packet) {
-		        	  //deal with packet
+		        	  if(object instanceof IncomingConnection) {
+		        		  //deal with it
+		        	  }
 		          }
 		       }
 		    });
-	}
-	
-	public boolean register(Class object) {
-		return false; // *ahem*
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.airdrop.src;
+package org.airdrop.network;
 
 public interface Packet {
 	
