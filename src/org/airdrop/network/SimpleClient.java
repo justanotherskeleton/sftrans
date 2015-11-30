@@ -48,7 +48,14 @@ public class SimpleClient {
 			      }
 		    	   
 		          if(object instanceof Packet) {
-		        	  //deal with packet
+		        	  if(object instanceof SimpleText) {
+			        	  SimpleText st = (SimpleText)object;
+			        	  log("SimpleText [" + st.origin + "] " + st.message);
+			          }
+		        	  
+		        	  if(object instanceof DataBlock) {
+		        		  //deal with data later
+		        	  }
 		          }
 		       }
 		    });

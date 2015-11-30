@@ -46,7 +46,17 @@ public class SimpleServer {
 		          
 		          if(object instanceof Packet) {
 		        	  if(object instanceof IncomingConnection) {
-		        		  //deal with it
+		        		  IncomingConnection ic = (IncomingConnection)object;
+		        		  log("Incoming connection made from " + ic.clientid + "@" + ic.ip);
+		        		  //ask operator to accept
+		        	  }
+		        	  
+		        	  if(object instanceof DataBlock) {
+		        		  server.sendToAllTCP(object); //make this more efficient
+		        	  }
+		        	  
+		        	  if(object instanceof SimpleText) {
+		        		  server.sendToAllTCP(object); //this is fine
 		        	  }
 		          }
 		       }
