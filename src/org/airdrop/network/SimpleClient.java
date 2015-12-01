@@ -61,10 +61,17 @@ public class SimpleClient {
 		    });
 	}
 	
-	public boolean register(Class object) { //add error checking
+	public void register(Class object) { //add error checking
 		kryo.register(object);
 		log("Registered " + object.getCanonicalName() + " with Kryo serial agent");
-		return true;
+		
+	}
+	
+	public void register(Class[] objects) {
+		for(Class c : objects) {
+			kryo.register(c);
+			log("Registered " + c.getCanonicalName() + " with Kryo serial agent");
+		}
 	}
 
 }

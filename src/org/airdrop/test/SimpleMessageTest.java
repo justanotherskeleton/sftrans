@@ -12,7 +12,8 @@ public class SimpleMessageTest {
 	public static void main(String args[]) {
 		//args: 0=am i host?
 		
-		boolean isHost = Boolean.parseBoolean(args[0]);
+		//boolean isHost = Boolean.parseBoolean(args[0]);
+		boolean isHost = true;
 		new SimpleMessageTest().start(isHost);
 	}
 	
@@ -21,7 +22,14 @@ public class SimpleMessageTest {
 		
 		if(isHost) {
 			server = new SimpleServer(Network.TCP_PORT, Network.UDP_PORT);
+			server.register(Network.BASE_KRYO);
+			server.listen();
 		}
+		
+		//System.out.println("not stalling");
+		
+		client.connectTo(server.getIp(), Network.TCP_PORT, Network.UDP_PORT);
+		client.register(Network.BASE_KRYO);
 	}
 
 }
